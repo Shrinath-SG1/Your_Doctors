@@ -1,6 +1,7 @@
-import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_bloc/pin_bloc.dart';
+
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/verify_security_pin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -150,6 +151,8 @@ class PinPutViewState extends State<PinPutView> {
                         onSubmit: (String pin) {
                           if (pin == StoredPin) {
                             print("Successful $StoredPin");
+
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>Welcome()));
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

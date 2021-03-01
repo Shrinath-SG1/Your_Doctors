@@ -1,4 +1,5 @@
-import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_bloc/pin_bloc.dart';
+
+import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
@@ -8,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
-
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 class VerifyPinScreen extends StatelessWidget {
+
   VerifyPinScreen({
     Key key,
     this.data1,
@@ -18,12 +20,16 @@ class VerifyPinScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body: PinPutView(
-            data: data1,
-          )),
+    return BlocProvider(
+      create:(context)=>PinScreenBloc(navigatorKey),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
+        home: Scaffold(
+            body: PinPutView(
+              data: data1,
+            )),
+      ),
     );
   }
 }
@@ -211,16 +217,27 @@ class PinPutViewState extends State<PinPutView> {
                         eachFieldWidth: 20.0,
                         eachFieldHeight: 25.0,
                         onSubmit: (String pin) {
-                          if (pin == StoredPin) {
-                            print("Successful");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Welcome()));
-                          } else {
-                            _showSnackBar(pin);
-                            print('$StoredPin Wrong Pin ');
-                          }
+                          var Verify;
+                         BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin, Verify,StoredPin));
+                         //  BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin,StoredPin,Verify,
+                         //      onSuccess: () {
+                         //        Navigator.push(
+                         //          context,
+                         //          MaterialPageRoute(builder: (context) {
+                         //            return Welcome();
+                         //          }),
+                         //        );
+                         //      }));
+                          // if (pin == StoredPin) {
+                          //   print("Successful");
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => Welcome()));
+                          // } else {
+                          //   _showSnackBar(pin);
+                          //   print('$StoredPin Wrong Pin ');
+                          // }
                         },
                         submittedFieldDecoration: pinPutDecoration,
                         selectedFieldDecoration: pinPutDecoration.copyWith(

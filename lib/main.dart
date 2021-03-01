@@ -1,9 +1,12 @@
 
+import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
+import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/confirm_pin.dart';
+import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/verify_security_pin.dart';
 import 'package:bloc/bloc.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/biometrics/service_locator.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/create_security_pin.dart';
 import 'package:flutter/material.dart';
-
+//final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 void main() {
   setupLocator();
   runApp(MaterialApp(home: CreatePinScreen(),));
@@ -14,6 +17,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      //navigatorKey: navigatorKey,
+      initialRoute: '/',
+      routes: {'/':(context)=>Welcome(),
+        // '/confirmScreen':(context)=>ConfirmPinScreen(),
+        // '/verifyScreen':(context)=>VerifyPinScreen(),
+        // '/homeScreen':(context)=>Welcome(),
+      },
       theme: ThemeData(
         // This is the theme of your application.
         //
