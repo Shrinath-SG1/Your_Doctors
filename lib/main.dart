@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 void main() {
   setupLocator();
-  runApp(MaterialApp(home: CreatePinScreen(),));
+  runApp(MaterialApp(home: VerifyPinScreen(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,13 +17,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      //navigatorKey: navigatorKey,
-      initialRoute: '/',
-      routes: {'/':(context)=>Welcome(),
+      // //navigatorKey: navigatorKey,
+      // initialRoute: '/',
+      // routes: {'/':(context)=>Welcome(),
         // '/confirmScreen':(context)=>ConfirmPinScreen(),
         // '/verifyScreen':(context)=>VerifyPinScreen(),
         // '/homeScreen':(context)=>Welcome(),
-      },
+
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CreatePinScreen(),
+      home: VerifyPinScreen(),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'app_constants.dart';
+
 class AppStrings {
   //Team1
   static const welcome = 'Welcome';
@@ -12,4 +14,11 @@ class AppStrings {
   static const createPin = "Create PIN";
   static const wrongPin = "WrongPin";
   static const pinNotMatched = "Pin Not Matched";
+}
+
+class ApiUrlConstants {
+
+  /// getting the user Data
+  static const getUser =
+      AppConstants.dioBaseUrl + "api/Account/ValidatePin";
 }

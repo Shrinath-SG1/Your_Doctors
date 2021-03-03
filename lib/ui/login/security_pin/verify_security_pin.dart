@@ -2,6 +2,8 @@
 import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/response/pin_response.dart';
+import 'package:YOURDRS_FlutterAPP/network/api_pin.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/biometrics/local_auth_service.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/biometrics/service_locator.dart';
@@ -20,11 +22,11 @@ class VerifyPinScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:(context)=>PinScreenBloc(navigatorKey),
+    return BlocProvider<PinScreenBloc>(
+      create:(context)=>PinScreenBloc(PinRepo()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        navigatorKey: navigatorKey,
+       // navigatorKey: navigatorKey,
         home: Scaffold(
             body: PinPutView(
               data: data1,
@@ -108,8 +110,10 @@ class PinPutViewState extends State<PinPutView> {
       );
     }
 
-    var StoredPin = widget.data;
-    void _showSnackBar(String pin) {
+    //var StoredPin = widget.data;
+    //var StoredPin=PinResponse().toJson();
+    //var temp= PinResponse().toJson();
+    void _showSnackBar() {
       final snackBar = SnackBar(
         duration: const Duration(seconds: 2),
         content: Container(
@@ -142,144 +146,140 @@ class PinPutViewState extends State<PinPutView> {
     Widget _smallAndBigDisplay() {
       return Container(
         color: CustomizedColors.PinScreenColor,
-        child: Container(
-          height: height,
-          // width: width,
+        child: BlocListener<PinScreenBloc,PinScreenState>(
+          listener: (context,state){
+            // if(state.Loading==true){
+            //   return Center(child: CircularProgressIndicator());
+            //
+            // }
+            if(state.isTrue==true){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Welcome()));
+            }
+            else
+            _showSnackBar();
+          },
+          child: Container(
+            height: height,
+            // width: width,
 
-          child: Stack(
-            fit: StackFit.passthrough,
-            children: <Widget>[
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child: Stack(
+              fit: StackFit.passthrough,
+              children: <Widget>[
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+                    Container(
+                      //color: Colors.yellowAccent,
+                      child: Text(
+                        AppStrings.yourDrs,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 50,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      height: 70,
+                      child: Image.asset(AppStrings.doctorImg),
+                    )
+                  ]),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0, bottom: 0),
+                    child: Container(
+                        height: height * 0.13,
+                        //width: width*0.25,
+                        child: Image.asset(AppStrings.pinImage)),
+                  ),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
                   Container(
-                    //color: Colors.yellowAccent,
                     child: Text(
-                      AppStrings.yourDrs,
+                      AppStrings.enterPin,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 50,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
+                  SizedBox(height: height * 0.05),
                   Container(
-                    height: 70,
-                    child: Image.asset(AppStrings.doctorImg),
-                  )
-                ]),
-                SizedBox(
-                  height: height * 0.05,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 0),
-                  child: Container(
-                      height: height * 0.13,
-                      //width: width*0.25,
-                      child: Image.asset(AppStrings.pinImage)),
-                ),
-                SizedBox(
-                  height: height * 0.03,
-                ),
-                Container(
-                  child: Text(
-                    AppStrings.enterPin,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                SizedBox(height: height * 0.05),
-                Container(
-                  height: height * 0.06,
-                  width: width * 0.65,
-                 // color: Colors.deepPurpleAccent,
-                  child:
-                  // EnterInputFields(data2: widget.data,),
-                  Form(
-                    key: _formKey,
-                    child: GestureDetector(
-                      onLongPress: () {
-                        print(_formKey.currentState.validate());
-                      },
-                      child: PinPut(
-                        validator: (s) {
-                          if (s.contains('1')) return null;
-                          return '';
+                    height: height * 0.06,
+                    width: width * 0.65,
+                   // color: Colors.deepPurpleAccent,
+                    child:
+                    // EnterInputFields(data2: widget.data,),
+                    Form(
+                      key: _formKey,
+                      child: GestureDetector(
+                        onLongPress: () {
+                          print(_formKey.currentState.validate());
                         },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        withCursor: true,
-                        fieldsCount: 4,
-                        fieldsAlignment: MainAxisAlignment.spaceAround,
-                        textStyle: const TextStyle(
-                            fontSize: 25.0, color: Colors.black),
-                        eachFieldMargin: EdgeInsets.all(0),
-                        eachFieldWidth: 20.0,
-                        eachFieldHeight: 25.0,
-                        onSubmit: (String pin) {
-                          var Verify;
-                         BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin, Verify,StoredPin));
-                         //  BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin,StoredPin,Verify,
-                         //      onSuccess: () {
-                         //        Navigator.push(
-                         //          context,
-                         //          MaterialPageRoute(builder: (context) {
-                         //            return Welcome();
-                         //          }),
-                         //        );
-                         //      }));
-                          // if (pin == StoredPin) {
-                          //   print("Successful");
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => Welcome()));
-                          // } else {
-                          //   _showSnackBar(pin);
-                          //   print('$StoredPin Wrong Pin ');
-                          // }
-                        },
-                        submittedFieldDecoration: pinPutDecoration,
-                        selectedFieldDecoration: pinPutDecoration.copyWith(
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 2,
-                            color: const Color.fromRGBO(160, 215, 220, 1),
+                        child: PinPut(
+                          validator: (s) {
+                            if (s.contains('1')) return null;
+                            return '';
+                          },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          withCursor: true,
+                          fieldsCount: 4,
+                          fieldsAlignment: MainAxisAlignment.spaceAround,
+                          textStyle: const TextStyle(
+                              fontSize: 25.0, color: Colors.black),
+                          eachFieldMargin: EdgeInsets.all(0),
+                          eachFieldWidth: 20.0,
+                          eachFieldHeight: 25.0,
+                          onSubmit: (String pin) {
+                            var Verify;
+                            //print(temp);
+                           BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin, Verify));
+                          },
+                          submittedFieldDecoration: pinPutDecoration,
+                          selectedFieldDecoration: pinPutDecoration.copyWith(
+                            color: Colors.white,
+                            border: Border.all(
+                              width: 2,
+                              color: const Color.fromRGBO(160, 215, 220, 1),
+                            ),
                           ),
+                          followingFieldDecoration: pinPutDecoration,
+                          pinAnimationType: PinAnimationType.scale,
                         ),
-                        followingFieldDecoration: pinPutDecoration,
-                        pinAnimationType: PinAnimationType.scale,
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: height * 0.10,
-                ),
-                Container(
-                  child: GestureDetector(
-                    onTap: _showMyDialog,
-                    child: Text(
-                      AppStrings.loginWithDiffAcc,
-                      style: TextStyle(color: Colors.white, fontSize: 20,decoration: TextDecoration.underline),
+                  SizedBox(
+                    height: height * 0.10,
+                  ),
+                  Container(
+                    child: GestureDetector(
+                      onTap: _showMyDialog,
+                      child: Text(
+                        AppStrings.loginWithDiffAcc,
+                        style: TextStyle(color: Colors.white, fontSize: 20,decoration: TextDecoration.underline),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                Container(
-                  child: GestureDetector(
-                    onTap: _localAuth.authenticate,
-                    child: Text(
-                      AppStrings.userTouchAndFaceId,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Container(
+                    child: GestureDetector(
+                      onTap: _localAuth.authenticate,
+                      child: Text(
+                        AppStrings.userTouchAndFaceId,
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
                     ),
                   ),
-                ),
-              ]),
-              //_bottomAppBar,
-            ],
+                ]),
+                //_bottomAppBar,
+              ],
+            ),
           ),
         ),
       );

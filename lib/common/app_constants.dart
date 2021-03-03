@@ -139,4 +139,8 @@ class AppConstants {
     bool isLengthOk = (otpValue.length == AppConstants.pinLength);
     return (isOnlyNum && isLengthOk);
   }
+
+
+  //team1
+  static const dioBaseUrl = "https://ydrsdevapi.yourdrs.com/";
 }

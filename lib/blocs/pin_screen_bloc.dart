@@ -1,50 +1,52 @@
 import 'dart:async';
-
-import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
-import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/biometrics/service_locator.dart';
+import 'dart:developer';
+import 'package:YOURDRS_FlutterAPP/data/model/response/pin_response.dart';
+import 'package:YOURDRS_FlutterAPP/network/api_pin.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-
 
 part 'pin_screen_event.dart';
+
 part 'pin_screen_state.dart';
 
-class PinScreenBloc extends Bloc<PinScreenEvent, dynamic> {
-  //final GlobalKey<NavigatorState> navigatorKey;
-  final GlobalKey<NavigatorState> navigatorKey;
-  // var StoredValue;
-  // var Pin;
-  PinScreenBloc(this.navigatorKey) : super(PinScreenState());
-  //PinScreenBloc() : super(PinScreenState());
-  dynamic get initialState => 0;
+class PinScreenBloc extends Bloc<PinScreenEvent, PinScreenState> {
+  PinRepo pinRepo;
+  PinScreenBloc(this.pinRepo) : super(PinScreenState(isTrue: true));
+var Truestatus=200;
+  var Falsestatus=0;
   @override
-  Stream<dynamic> mapEventToState(PinScreenEvent event,)
-  async* {
-    // TODO: implement mapEventToState
-    if(event is PinScreenEvent)
-      if (event.pin == event.StoredVal) {
-        print("Successful in bloc");
-        // SchedulerBinding.instance.addPostFrameCallback((_) {
-        //   Navigator.of(context).push(
-        //     MaterialPageRoute(
-        //       builder: (context) {
-        //         return Welcome();
-        //       },
-        //     ),
-        //   );
-        //   return;
-        // });
-       navigatorKey.currentState.pushNamed('/');
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => Welcome()));
-      } else {
-        // _showSnackBar(pin);
-        print('${event.StoredVal} Wrong Pin ');
-      }
 
+  Stream<PinScreenState> mapEventToState(
+    PinScreenEvent event,
+  ) async* {
+    // TODO: implement mapEventToState
+    if(event is PinScreenEvent){
+      PinResponse pinResponse= await pinRepo.postApiMethod(event.id.toString(), event.pin);
+      // if(pinResponse==null)
+      //   {
+      //     yield PinScreenState(Loading: true);
+      //   }
+      print(pinResponse);
+      if(pinResponse.header.statusCode=="200") {
+        print('HomeScreen');
+        yield PinScreenState(isTrue: true);
+      }
+      else if (pinResponse.header.statusCode== "401"){
+        print('ShowSnackbar');
+         yield PinScreenState(isTrue: false);
+      }
+      // if(pinResponse.userId=='1'){
+      //
+      // }
+      //
+    // if (event is PinScreenEvent) {
+    //   if (event.pin == event.StoredVal) {
+    //     print("Successful in bloc");
+    //     yield PinScreenState(isTrue: true);
+    //   } else {
+    //     // _showSnackBar(pin);
+    //     print('${event.StoredVal} Wrong Pin ');
+    //     yield PinScreenState(isTrue: false);
+    //   }
     }
   }
-
+}
