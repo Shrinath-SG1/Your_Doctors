@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 void main() {
   setupLocator();
-  runApp(MaterialApp(home: VerifyPinScreen(),));
+  runApp(MaterialApp(home: CreatePinScreen(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: VerifyPinScreen(),
+      home: CreatePinScreen(),
     );
   }
 }

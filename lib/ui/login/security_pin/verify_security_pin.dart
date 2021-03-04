@@ -1,9 +1,9 @@
 
-import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_bloc.dart';
+import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_validate_bloc/pin_screen_validate_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/response/pin_response.dart';
-import 'package:YOURDRS_FlutterAPP/network/api_pin.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/response/pin_validate_model.dart';
+import 'package:YOURDRS_FlutterAPP/network/pin_validate_api.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/biometrics/local_auth_service.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/biometrics/service_locator.dart';
@@ -53,6 +53,7 @@ class PinPutViewState extends State<PinPutView> {
     // void dispose() {
     //   dataBloc.close();
     // }
+    var memberId=widget.data;
 
     Future<void> _showMyDialog() async {
       return showDialog<void>(
@@ -153,7 +154,7 @@ class PinPutViewState extends State<PinPutView> {
             //
             // }
             if(state.isTrue==true){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Welcome()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Welcome(data1: state.name,)));
             }
             else
             _showSnackBar();
@@ -236,7 +237,7 @@ class PinPutViewState extends State<PinPutView> {
                           onSubmit: (String pin) {
                             var Verify;
                             //print(temp);
-                           BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin, Verify));
+                           BlocProvider.of<PinScreenBloc>(context).add(PinScreenEvent(pin, Verify,memberId));
                           },
                           submittedFieldDecoration: pinPutDecoration,
                           selectedFieldDecoration: pinPutDecoration.copyWith(

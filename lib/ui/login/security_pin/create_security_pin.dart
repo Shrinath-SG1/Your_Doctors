@@ -1,5 +1,4 @@
 
-import 'package:YOURDRS_FlutterAPP/blocs/pin_screen_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/ui/login/security_pin/DemoScreen.dart';
@@ -37,6 +36,7 @@ class PinPutViewState extends State<PinPutView> {
   Widget build(BuildContext context) {
 
     var StorePin;
+    var MemberId=3;
     // TODO: implement build
     final BoxDecoration pinPutDecoration = BoxDecoration(
       color: Colors.white,
@@ -123,14 +123,15 @@ class PinPutViewState extends State<PinPutView> {
                         eachFieldWidth: 20.0,
                         eachFieldHeight: 25.0,
                         onSubmit: (String pin) {
-                          StorePin = pin;
-                          print('Saved Value is $StorePin');
+                          //StorePin = pin;
+                          print('Saved Value is $pin');
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              MaterialPageRoute(                                   ///here we are sending our Member id and Pin to confirmation Screen.
                                   builder: (context) => ConfirmPinScreen(
-                                        data1: StorePin,
+                                        data1: pin,data2: MemberId.toString(),
                                       )));
+
                         },
                         submittedFieldDecoration: pinPutDecoration,
                         selectedFieldDecoration: pinPutDecoration.copyWith(

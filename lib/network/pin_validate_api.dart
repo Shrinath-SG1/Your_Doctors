@@ -1,7 +1,7 @@
 
 import 'package:YOURDRS_FlutterAPP/common/app_constants.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/response/pin_response.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/response/pin_validate_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class PinRepo {
@@ -63,7 +63,7 @@ class PinRepo {
 // }
 
 // import 'dart:convert';
-// import 'package:YOURDRS_FlutterAPP/data/model/response/pin_response.dart';
+// import 'package:YOURDRS_FlutterAPP/data/model/response/pin_validate_model.dart';
 // import 'package:http/http.dart' as http;
 //
 // final String apiURL = 'https://ydrsdevapi.yourdrs.com/api/Account/ValidatePin?MemberId=1&Pin=0101&IsFingerPrintValidation=false';
@@ -91,7 +91,7 @@ class PinRepo {
 // import 'dart:convert';
 // import 'dart:async';
 //
-// import 'package:YOURDRS_FlutterAPP/data/model/response/pin_response.dart';
+// import 'package:YOURDRS_FlutterAPP/data/model/response/pin_validate_model.dart';
 //
 // Future<PinResponse> createPinState(String username, String password) async {
 //   final http.Response response = await http.post(

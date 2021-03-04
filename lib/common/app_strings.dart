@@ -21,4 +21,7 @@ class ApiUrlConstants {
   /// getting the user Data
   static const getUser =
       AppConstants.dioBaseUrl + "api/Account/ValidatePin";
+  static const generatePin =
+      AppConstants.dioBaseUrl + "api/Account/GenerateMemberPin";
+
 }

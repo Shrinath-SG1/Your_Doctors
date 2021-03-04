@@ -1,9 +1,9 @@
-part of 'pin_screen_bloc.dart';
+part of 'pin_screen_validate_bloc.dart';
 class PinScreenState{
  bool isTrue;
- // bool Loading;
+ var name;
  PinScreenState({this.isTrue,
-  // this.Loading
+   this.name
  });
 
 }
